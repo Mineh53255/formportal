@@ -1,0 +1,2953 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="timestamp" content="2026-03-19 19:27">
+    <title>GPFA Official Scholarship & Financial Aid Portal</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <style>
+        :root {
+            --primary-maroon: #5c3b2c;
+            --secondary-gold: #cbb5a8;
+            --accent-tan: #a89080;
+            --bg-offwhite: #f4f1ee;
+            --text-dark: #2c1810;
+            --border-light: #e0d5cf;
+            --success-green: #4a7c59;
+            --error-red: #c44d34;
+            --warning-amber: #d4a373;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-offwhite);
+            color: var(--text-dark);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Playfair Display', serif;
+            color: var(--primary-maroon);
+            font-weight: 600;
+        }
+
+        .portal-header {
+            background: linear-gradient(135deg, var(--primary-maroon) 0%, #3d261c 100%);
+            color: white;
+            padding: 3rem 0;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+        }
+
+        .portal-header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -10%;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(203,181,168,0.2) 0%, transparent 70%);
+            border-radius: 50%;
+        }
+
+        .logo-section {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .logo-icon {
+            width: 90px;
+            height: 90px;
+            background: var(--secondary-gold);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.2rem;
+            color: var(--primary-maroon);
+            font-weight: 700;
+            border: 4px solid rgba(255,255,255,0.3);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+
+        .portal-title h1 {
+            color: white;
+            font-size: 2.4rem;
+            margin-bottom: 0.25rem;
+            letter-spacing: -0.5px;
+        }
+
+        .portal-title p {
+            color: var(--secondary-gold);
+            font-size: 1.1rem;
+            opacity: 0.95;
+            margin: 0;
+        }
+
+        .stepper-container {
+            background: white;
+            border-bottom: 1px solid var(--border-light);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 15px rgba(0,0,0,0.08);
+        }
+
+        .stepper {
+            display: flex;
+            justify-content: space-between;
+            padding: 1.5rem 0;
+            max-width: 1100px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .stepper::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 5%;
+            right: 5%;
+            height: 3px;
+            background: var(--border-light);
+            z-index: 0;
+            transform: translateY(-50%);
+        }
+
+        .step {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+            z-index: 1;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            flex: 1;
+        }
+
+        .step-number {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            background: white;
+            border: 3px solid var(--border-light);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            color: var(--accent-tan);
+            transition: all 0.3s ease;
+            margin-bottom: 0.5rem;
+            font-size: 1rem;
+        }
+
+        .step.active .step-number {
+            background: var(--primary-maroon);
+            border-color: var(--primary-maroon);
+            color: white;
+            transform: scale(1.15);
+            box-shadow: 0 4px 12px rgba(92, 59, 44, 0.4);
+        }
+
+        .step.completed .step-number {
+            background: var(--success-green);
+            border-color: var(--success-green);
+            color: white;
+        }
+
+        .step-label {
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--accent-tan);
+            text-align: center;
+            max-width: 120px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .step.active .step-label {
+            color: var(--primary-maroon);
+        }
+
+        .step.completed .step-label {
+            color: var(--success-green);
+        }
+
+        .form-container {
+            max-width: 1000px;
+            margin: 3rem auto;
+            padding: 0 1.5rem;
+        }
+
+        .form-section {
+            background: white;
+            border-radius: 16px;
+            padding: 3rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.08);
+            display: none;
+            animation: fadeIn 0.5s ease;
+            border: 1px solid var(--border-light);
+        }
+
+        .form-section.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .section-header {
+            border-bottom: 3px solid var(--secondary-gold);
+            padding-bottom: 1.5rem;
+            margin-bottom: 2.5rem;
+            position: relative;
+        }
+
+        .section-header::after {
+            content: '';
+            position: absolute;
+            bottom: -3px;
+            left: 0;
+            width: 100px;
+            height: 3px;
+            background: var(--primary-maroon);
+        }
+
+        .section-header h2 {
+            font-size: 1.9rem;
+            margin-bottom: 0.75rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .section-header p {
+            color: var(--accent-tan);
+            font-size: 1rem;
+            margin: 0;
+            font-style: italic;
+        }
+
+        .form-label {
+            font-weight: 600;
+            color: var(--text-dark);
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+            letter-spacing: 0.3px;
+        }
+
+        .form-control, .form-select {
+            border: 2px solid var(--border-light);
+            border-radius: 10px;
+            padding: 0.875rem 1.25rem;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+            background-color: #fafafa;
+            color: var(--text-dark);
+        }
+
+        .form-control:focus, .form-select:focus {
+            border-color: var(--primary-maroon);
+            box-shadow: 0 0 0 4px rgba(92, 59, 44, 0.1);
+            background-color: white;
+            transform: translateY(-1px);
+        }
+
+        .input-group-text {
+            background-color: var(--bg-offwhite);
+            border: 2px solid var(--border-light);
+            color: var(--primary-maroon);
+            font-weight: 600;
+            border-right: none;
+        }
+
+        .form-control.is-invalid {
+            border-color: var(--error-red);
+            background-image: none;
+        }
+
+        .invalid-feedback {
+            color: var(--error-red);
+            font-size: 0.85rem;
+            margin-top: 0.25rem;
+        }
+
+        .dynamic-list {
+            margin-top: 1.5rem;
+        }
+
+        .dynamic-item {
+            background: linear-gradient(to right, #fafafa, white);
+            border: 2px solid var(--border-light);
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 1.5rem;
+            position: relative;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+        }
+
+        .dynamic-item:hover {
+            border-color: var(--secondary-gold);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            transform: translateY(-2px);
+        }
+
+        .dynamic-item .remove-btn {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: none;
+            border: none;
+            color: var(--error-red);
+            cursor: pointer;
+            font-size: 1.3rem;
+            opacity: 0.6;
+            transition: all 0.2s;
+            width: 35px;
+            height: 35px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+        }
+
+        .dynamic-item .remove-btn:hover {
+            opacity: 1;
+            background: rgba(196, 77, 52, 0.1);
+        }
+
+        .btn-add {
+            background: transparent;
+            border: 2px dashed var(--secondary-gold);
+            color: var(--primary-maroon);
+            padding: 1.25rem 2rem;
+            border-radius: 10px;
+            font-weight: 600;
+            width: 100%;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.75rem;
+            font-size: 1rem;
+            margin-top: 1rem;
+        }
+
+        .btn-add:hover {
+            background: rgba(203, 181, 168, 0.15);
+            border-color: var(--primary-maroon);
+            color: var(--primary-maroon);
+            border-style: solid;
+            transform: translateY(-2px);
+        }
+
+        .navigation-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 3rem;
+            padding-top: 2rem;
+            border-top: 2px solid var(--border-light);
+        }
+
+        .btn-nav {
+            padding: 1rem 3rem;
+            border-radius: 10px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-size: 1rem;
+            letter-spacing: 0.5px;
+        }
+
+        .btn-prev {
+            background: white;
+            border: 2px solid var(--border-light);
+            color: var(--text-dark);
+        }
+
+        .btn-prev:hover {
+            background: var(--bg-offwhite);
+            border-color: var(--accent-tan);
+            transform: translateX(-3px);
+        }
+
+        .btn-next, .btn-submit {
+            background: var(--primary-maroon);
+            border: none;
+            color: white;
+            box-shadow: 0 4px 15px rgba(92, 59, 44, 0.3);
+        }
+
+        .btn-next:hover, .btn-submit:hover {
+            background: #4a2f23;
+            transform: translateY(-2px) translateX(3px);
+            box-shadow: 0 6px 20px rgba(92, 59, 44, 0.4);
+        }
+
+        .btn-submit {
+            background: var(--success-green);
+            padding: 1rem 4rem;
+        }
+
+        .btn-submit:hover {
+            background: #3d6348;
+        }
+
+        .conditional-field {
+            display: none;
+            animation: slideDown 0.4s ease;
+            margin-top: 1.5rem;
+            padding: 1.5rem;
+            background: rgba(203, 181, 168, 0.12);
+            border-radius: 12px;
+            border-left: 4px solid var(--primary-maroon);
+        }
+
+        .conditional-field.show {
+            display: block;
+        }
+
+        @keyframes slideDown {
+            from { opacity: 0; max-height: 0; transform: translateY(-10px); }
+            to { opacity: 1; max-height: 1000px; transform: translateY(0); }
+        }
+
+        .upload-zone {
+            border: 2px dashed var(--secondary-gold);
+            border-radius: 16px;
+            padding: 3rem 2rem;
+            text-align: center;
+            background: #fafafa;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .upload-zone::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, transparent 0%, rgba(203,181,168,0.1) 100%);
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .upload-zone:hover {
+            border-color: var(--primary-maroon);
+            background: rgba(203, 181, 168, 0.08);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+        }
+
+        .upload-zone:hover::before {
+            opacity: 1;
+        }
+
+        .upload-zone i {
+            font-size: 3.5rem;
+            color: var(--secondary-gold);
+            margin-bottom: 1.5rem;
+            display: block;
+        }
+
+        .upload-zone h4 {
+            color: var(--primary-maroon);
+            margin-bottom: 0.75rem;
+            font-size: 1.3rem;
+        }
+
+        .upload-zone p {
+            color: var(--accent-tan);
+            margin-bottom: 1rem;
+        }
+
+        .file-list {
+            margin-top: 1.5rem;
+        }
+
+        .file-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1.25rem;
+            background: white;
+            border: 2px solid var(--border-light);
+            border-radius: 10px;
+            margin-bottom: 1rem;
+            transition: all 0.3s;
+        }
+
+        .file-item:hover {
+            border-color: var(--secondary-gold);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+        }
+
+        .file-info {
+            display: flex;
+            align-items: center;
+            gap: 1.25rem;
+        }
+
+        .file-icon {
+            width: 50px;
+            height: 50px;
+            background: var(--bg-offwhite);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary-maroon);
+            font-size: 1.5rem;
+        }
+
+        .required-field::after {
+            content: ' *';
+            color: var(--error-red);
+            font-weight: 700;
+        }
+
+        .form-check-input {
+            width: 1.2em;
+            height: 1.2em;
+            margin-top: 0.15em;
+            border: 2px solid var(--border-light);
+            cursor: pointer;
+        }
+
+        .form-check-input:checked {
+            background-color: var(--primary-maroon);
+            border-color: var(--primary-maroon);
+        }
+
+        .form-check-label {
+            cursor: pointer;
+            padding-left: 0.5rem;
+            font-size: 0.95rem;
+        }
+
+        .progress-indicator {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 4px;
+            background: linear-gradient(to right, var(--primary-maroon), var(--secondary-gold));
+            z-index: 1000;
+            transition: width 0.4s ease;
+            box-shadow: 0 2px 10px rgba(92, 59, 44, 0.3);
+        }
+
+        .review-section {
+            background: linear-gradient(to right, #fafafa, white);
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            border: 2px solid var(--border-light);
+        }
+
+        .review-section h5 {
+            color: var(--primary-maroon);
+            margin-bottom: 1.5rem;
+            font-size: 1.2rem;
+            border-bottom: 2px solid var(--secondary-gold);
+            padding-bottom: 0.75rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .review-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 1rem 0;
+            border-bottom: 1px solid var(--border-light);
+            align-items: flex-start;
+        }
+
+        .review-item:last-child {
+            border-bottom: none;
+        }
+
+        .review-label {
+            color: var(--accent-tan);
+            font-weight: 500;
+            flex: 1;
+        }
+
+        .review-value {
+            color: var(--text-dark);
+            font-weight: 600;
+            flex: 1;
+            text-align: right;
+        }
+
+        .alert-custom {
+            background: rgba(203, 181, 168, 0.2);
+            border: none;
+            border-left: 5px solid var(--primary-maroon);
+            color: var(--text-dark);
+            padding: 1.25rem;
+            border-radius: 10px;
+        }
+
+        .alert-warning-custom {
+            background: rgba(212, 163, 115, 0.2);
+            border-left: 5px solid var(--warning-amber);
+        }
+
+        .info-box {
+            background: rgba(92, 59, 44, 0.05);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            border: 1px solid var(--border-light);
+        }
+
+        .info-box h6 {
+            color: var(--primary-maroon);
+            margin-bottom: 0.75rem;
+            font-size: 1.1rem;
+        }
+
+        .info-box ul {
+            margin: 0;
+            padding-left: 1.5rem;
+            color: var(--accent-tan);
+        }
+
+        .info-box li {
+            margin-bottom: 0.5rem;
+        }
+
+        .signature-pad {
+            border: 2px solid var(--border-light);
+            border-radius: 12px;
+            background: white;
+            cursor: crosshair;
+            width: 100%;
+            height: 200px;
+            touch-action: none;
+        }
+
+        .signature-pad:hover {
+            border-color: var(--secondary-gold);
+        }
+
+        .currency-input {
+            font-family: 'Inter', monospace;
+            font-weight: 600;
+        }
+
+        @media (max-width: 768px) {
+            .stepper {
+                overflow-x: auto;
+                gap: 0.5rem;
+                padding: 1rem 0;
+            }
+            
+            .stepper::before {
+                display: none;
+            }
+            
+            .step-label {
+                font-size: 0.7rem;
+                max-width: 80px;
+            }
+            
+            .form-section {
+                padding: 1.5rem;
+            }
+            
+            .portal-title h1 {
+                font-size: 1.6rem;
+            }
+            
+            .logo-icon {
+                width: 60px;
+                height: 60px;
+                font-size: 1.5rem;
+            }
+            
+            .btn-nav {
+                padding: 0.875rem 1.5rem;
+                font-size: 0.9rem;
+            }
+        }
+
+        .loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(255,255,255,0.98);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            flex-direction: column;
+            backdrop-filter: blur(5px);
+        }
+
+        .loading-overlay.show {
+            display: flex;
+        }
+
+        .spinner-custom {
+            width: 70px;
+            height: 70px;
+            border: 5px solid var(--border-light);
+            border-top-color: var(--primary-maroon);
+            border-right-color: var(--secondary-gold);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .toast-container {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            z-index: 1050;
+        }
+
+        .toast-custom {
+            background: var(--primary-maroon);
+            color: white;
+            border: none;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.2);
+        }
+
+        .table-input {
+            width: 100%;
+            border: none;
+            background: transparent;
+            padding: 0.5rem;
+        }
+
+        .table-input:focus {
+            outline: none;
+            background: rgba(203, 181, 168, 0.1);
+            border-radius: 4px;
+        }
+
+        .checkbox-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+            padding: 0.75rem;
+            background: #fafafa;
+            border-radius: 8px;
+            border: 1px solid var(--border-light);
+            transition: all 0.2s;
+        }
+
+        .checkbox-item:hover {
+            background: rgba(203, 181, 168, 0.1);
+            border-color: var(--secondary-gold);
+        }
+
+        .section-divider {
+            height: 2px;
+            background: linear-gradient(to right, var(--secondary-gold), transparent);
+            margin: 3rem 0;
+            border: none;
+        }
+
+        .financial-summary-box {
+            background: var(--primary-maroon);
+            color: white;
+            padding: 2rem;
+            border-radius: 12px;
+            margin-top: 2rem;
+        }
+
+        .financial-summary-box h5 {
+            color: var(--secondary-gold);
+            margin-bottom: 1rem;
+        }
+
+        .financial-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.75rem 0;
+            border-bottom: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .financial-row:last-child {
+            border-bottom: none;
+            font-weight: 700;
+            font-size: 1.1rem;
+            color: var(--secondary-gold);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="progress-indicator" id="progressBar" style="width: 0%"></div>
+
+    <!-- Header -->
+    <header class="portal-header">
+        <div class="container">
+            <div class="logo-section">
+                <div class="logo-icon">GP</div>
+                <div class="portal-title">
+                    <h1>Gbowee Peace Foundation Africa</h1>
+                    <p>Official Scholarship & Financial Aid Application Portal</p>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Stepper Navigation -->
+    <div class="stepper-container">
+        <div class="container">
+            <div class="stepper">
+                <div class="step active" data-step="1">
+                    <div class="step-number">1</div>
+                    <div class="step-label">Personal Info</div>
+                </div>
+                <div class="step" data-step="2">
+                    <div class="step-number">2</div>
+                    <div class="step-label">Scholarship Info</div>
+                </div>
+                <div class="step" data-step="3">
+                    <div class="step-number">3</div>
+                    <div class="step-label">Family & Medical</div>
+                </div>
+                <div class="step" data-step="4">
+                    <div class="step-number">4</div>
+                    <div class="step-label">Academic History</div>
+                </div>
+                <div class="step" data-step="5">
+                    <div class="step-number">5</div>
+                    <div class="step-label">Financial Aid</div>
+                </div>
+                <div class="step" data-step="6">
+                    <div class="step-number">6</div>
+                    <div class="step-label">Documents</div>
+                </div>
+                <div class="step" data-step="7">
+                    <div class="step-number">7</div>
+                    <div class="step-label">Review</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Form Container -->
+    <div class="form-container">
+        <form id="gpfaForm" novalidate>
+            
+            <!-- Step 1: Personal Information -->
+            <div class="form-section active" id="step1">
+                <div class="section-header">
+                    <h2><i class="bi bi-person-circle"></i> Personal Information</h2>
+                    <p>Complete all fields accurately. This information will be used for all official correspondence.</p>
+                </div>
+
+                <div class="info-box">
+                    <h6><i class="bi bi-info-circle"></i> Application Checklist</h6>
+                    <ul>
+                        <li>Completed and signed application form</li>
+                        <li>Grade Sheet/Progress Report of final examinations</li>
+                        <li>Completed and signed Financial Aid form</li>
+                        <li>1 passport photograph with your name written on the back</li>
+                    </ul>
+                </div>
+
+                <div class="row g-4">
+                    <div class="col-md-4">
+                        <label class="form-label required-field">Surname</label>
+                        <input type="text" class="form-control" name="surname" required>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label required-field">First Name</label>
+                        <input type="text" class="form-control" name="firstName" required>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label">Middle Name</label>
+                        <input type="text" class="form-control" name="middleName">
+                    </div>
+                </div>
+
+                <div class="row g-4 mt-2">
+                    <div class="col-md-6">
+                        <label class="form-label required-field">Gender</label>
+                        <div class="d-flex gap-4 mt-2">
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="gender" value="male" id="genderMale" required>
+                                <label class="form-check-label" for="genderMale">Male</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="gender" value="female" id="genderFemale">
+                                <label class="form-check-label" for="genderFemale">Female</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="gender" value="other" id="genderOther">
+                                <label class="form-check-label" for="genderOther">Other</label>
+                            </div>
+                        </div>
+                        <input type="text" class="form-control mt-2" name="genderOther" id="genderOtherText" placeholder="Please specify" style="display: none;">
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label required-field">Birth Date</label>
+                        <input type="date" class="form-control" name="birthDate" id="birthDate" required onchange="checkAge()">
+                    </div>
+                </div>
+
+                <div class="row g-4 mt-2">
+                    <div class="col-md-6">
+                        <label class="form-label required-field">Citizenship</label>
+                        <div class="d-flex gap-4 mt-2">
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="citizenship" value="liberian" id="citizenLiberian" required>
+                                <label class="form-check-label" for="citizenLiberian">Liberian</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="citizenship" value="other" id="citizenOther">
+                                <label class="form-check-label" for="citizenOther">Other</label>
+                            </div>
+                        </div>
+                        <input type="text" class="form-control mt-2" name="citizenshipOther" id="citizenshipOtherText" placeholder="Specify country" style="display: none;">
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label required-field">County of Origin</label>
+                        <input type="text" class="form-control" name="countyOrigin" required>
+                    </div>
+                </div>
+
+                <div class="row g-4 mt-2">
+                    <div class="col-12">
+                        <label class="form-label required-field">Full Home Address</label>
+                        <textarea class="form-control" name="homeAddress" rows="3" required></textarea>
+                    </div>
+                </div>
+
+                <div class="row g-4 mt-2">
+                    <div class="col-md-4">
+                        <label class="form-label required-field">City</label>
+                        <input type="text" class="form-control" name="city" required>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label required-field">County</label>
+                        <input type="text" class="form-control" name="county" required>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label required-field">Country</label>
+                        <input type="text" class="form-control" name="country" required>
+                    </div>
+                </div>
+
+                <div class="row g-4 mt-2">
+                    <div class="col-md-6">
+                        <label class="form-label required-field">Mobile Phone</label>
+                        <input type="tel" class="form-control" name="mobilePhone" required placeholder="+231 XX XXX XXXX">
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label">Second Phone</label>
+                        <input type="tel" class="form-control" name="secondPhone">
+                    </div>
+                </div>
+
+                <div class="row g-4 mt-2">
+                    <div class="col-md-6">
+                        <label class="form-label required-field">Email Address</label>
+                        <input type="email" class="form-control" name="email" required>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label required-field">Grade Level</label>
+                        <input type="text" class="form-control" name="gradeLevel" required placeholder="e.g., 12th Grade, Undergraduate Year 2">
+                    </div>
+                </div>
+
+                <div class="conditional-field mt-4" id="guardianSignatureSection">
+                    <h5 class="mb-3" style="color: var(--primary-maroon);">
+                        <i class="bi bi-shield-check"></i> Parent/Guardian Signature Required (Under 18)
+                    </h5>
+                    <div class="row g-4">
+                        <div class="col-md-6">
+                            <label class="form-label required-field">Are you related to the applicant?</label>
+                            <div class="d-flex gap-4">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="guardianRelated" value="yes" id="relatedYes">
+                                    <label class="form-check-label" for="relatedYes">Yes</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="guardianRelated" value="no" id="relatedNo">
+                                    <label class="form-check-label" for="relatedNo">No</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label required-field">Relationship</label>
+                            <select class="form-select" name="guardianRelationship" id="guardianRelationship" required>
+                                <option value="">Select Relationship</option>
+                                <option value="mother">Mother</option>
+                                <option value="father">Father</option>
+                                <option value="grandmother">Grandmother</option>
+                                <option value="grandfather">Grandfather</option>
+                                <option value="sister">Sister</option>
+                                <option value="brother">Brother</option>
+                                <option value="uncle">Uncle</option>
+                                <option value="aunt">Aunt</option>
+                                <option value="cousin">Cousin</option>
+                                <option value="other">Other</option>
+                            </select>
+                            <input type="text" class="form-control mt-2" name="guardianRelationshipOther" id="guardianRelationshipOther" placeholder="Specify relationship" style="display: none;">
+                        </div>
+                    </div>
+                    <div class="row g-4 mt-2">
+                        <div class="col-md-6">
+                            <label class="form-label required-field">Adult Full Name</label>
+                            <input type="text" class="form-control" name="guardianFullName" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label required-field">Signature Date</label>
+                            <input type="date" class="form-control" name="guardianSignatureDate" required>
+                        </div>
+                    </div>
+                    <div class="mt-3">
+                        <label class="form-label required-field">Electronic Signature</label>
+                        <canvas class="signature-pad" id="guardianSignature"></canvas>
+                        <button type="button" class="btn btn-sm btn-outline-secondary mt-2" onclick="clearSignature('guardianSignature')">Clear Signature</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Step 2: Scholarship Information -->
+            <div class="form-section" id="step2">
+                <div class="section-header">
+                    <h2><i class="bi bi-award"></i> Scholarship Information</h2>
+                    <p>Details about your scholarship application and how you learned about GPFA.</p>
+                </div>
+
+                <div class="row g-4">
+                    <div class="col-md-6">
+                        <label class="form-label required-field">Have you ever applied to GPFA for a scholarship?</label>
+                        <div class="d-flex gap-4 mt-2">
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="appliedBefore" value="no" id="appliedNo" checked onchange="togglePreviousApplication()">
+                                <label class="form-check-label" for="appliedNo">No</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="appliedBefore" value="yes" id="appliedYes" onchange="togglePreviousApplication()">
+                                <label class="form-check-label" for="appliedYes">Yes</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 conditional-field" id="previousApplicationYear" style="display: none; margin-top: 0;">
+                        <label class="form-label required-field">Year of Previous Application</label>
+                        <input type="number" class="form-control" name="previousApplicationYear" min="2010" max="2026">
+                    </div>
+                </div>
+
+                <div class="row g-4 mt-2">
+                    <div class="col-md-6">
+                        <label class="form-label required-field">Desired Major</label>
+                        <input type="text" class="form-control" name="desiredMajor" required>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label required-field">How did you FIRST learn about GPFA?</label>
+                        <select class="form-select" name="learnedAbout" required onchange="toggleOtherSource()">
+                            <option value="">Select One</option>
+                            <option value="newspaper">Newspaper</option>
+                            <option value="radio">Radio</option>
+                            <option value="website">Website</option>
+                            <option value="student">Student</option>
+                            <option value="friend">Friend</option>
+                            <option value="parent">Parent</option>
+                            <option value="relative">Relative</option>
+                            <option value="teacher">Teacher or Counselor at school</option>
+                            <option value="presentation">Presentation/GPFA Rep</option>
+                            <option value="signboard">Sign board</option>
+                            <option value="other">Other</option>
+                        </select>
+                        <input type="text" class="form-control mt-2" name="learnedAboutOther" id="learnedAboutOther" placeholder="Please specify" style="display: none;">
+                    </div>
+                </div>
+
+                <div class="mt-4">
+                    <label class="form-label">Do you have any of the following items? (Check all that apply)</label>
+                    <div class="checkbox-grid">
+                        <div class="checkbox-item">
+                            <input class="form-check-input" type="checkbox" name="documents" value="birthCertificate" id="docBirth">
+                            <label class="form-check-label ms-2" for="docBirth">Official birth certificate (Ministry of Health)</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input class="form-check-input" type="checkbox" name="documents" value="liberianPassport" id="docLibPassport">
+                            <label class="form-check-label ms-2" for="docLibPassport">Liberian passport</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input class="form-check-input" type="checkbox" name="documents" value="ecowasPassport" id="docEcowas">
+                            <label class="form-check-label ms-2" for="docEcowas">ECOWAS passport</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input class="form-check-input" type="checkbox" name="documents" value="medicalCertificate" id="docMedical">
+                            <label class="form-check-label ms-2" for="docMedical">Medical Certificate</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="alert alert-custom mt-4">
+                    <h6><i class="bi bi-info-circle-fill"></i> Important Scholarship Information</h6>
+                    <p class="mb-2">Scholarships are awarded on the basis of need, academic performance, and commitment to education. GPFA has limited resources and cannot provide assistance to all applicants. Do not request more assistance than you need.</p>
+                    <p class="mb-0">If you are awarded a scholarship from another organization, you must inform GPFA immediately.</p>
+                </div>
+
+                <div class="row g-4 mt-2">
+                    <div class="col-md-6">
+                        <label class="form-label required-field">Do you intend to apply for financial assistance from another organization?</label>
+                        <div class="d-flex gap-4 mt-2">
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="otherAssistance" value="no" id="otherAssistNo" required>
+                                <label class="form-check-label" for="otherAssistNo">No</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="otherAssistance" value="yes" id="otherAssistYes">
+                                <label class="form-check-label" for="otherAssistYes">Yes</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label required-field">Do you require housing at the university?</label>
+                        <div class="d-flex gap-4 mt-2">
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="needsHousing" value="no" id="housingNo" required onchange="toggleHousing()">
+                                <label class="form-check-label" for="housingNo">No</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="needsHousing" value="yes" id="housingYes" onchange="toggleHousing()">
+                                <label class="form-check-label" for="housingYes">Yes</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="conditional-field mt-3" id="housingDetails">
+                    <p class="text-muted mb-3"><i class="bi bi-exclamation-triangle"></i> Note: GPFA cannot guarantee accommodations at your school.</p>
+                    
+                    <label class="form-label">Where will you reside during schooling? (Select all that apply)</label>
+                    <div class="row g-3 mt-1">
+                        <div class="col-md-4">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" name="residenceType" value="family" id="resFamily" onchange="toggleResidence('family')">
+                                <label class="form-check-label" for="resFamily">With Family</label>
+                            </div>
+                            <div id="resFamilyDetails" style="display: none;" class="mt-2">
+                                <input type="text" class="form-control form-control-sm mb-2" name="familyName" placeholder="Family Name">
+                                <input type="tel" class="form-control form-control-sm" name="familyPhone" placeholder="Phone">
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" name="residenceType" value="self" id="resSelf" onchange="toggleResidence('self')">
+                                <label class="form-check-label" for="resSelf">Self (Own accommodation)</label>
+                            </div>
+                            <div id="resSelfDetails" style="display: none;" class="mt-2">
+                                <textarea class="form-control form-control-sm" name="selfAddress" rows="2" placeholder="Your address"></textarea>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" name="residenceType" value="partner" id="resPartner" onchange="toggleResidence('partner')">
+                                <label class="form-check-label" for="resPartner">With Partner/Spouse</label>
+                            </div>
+                            <div id="resPartnerDetails" style="display: none;" class="mt-2">
+                                <input type="text" class="form-control form-control-sm mb-2" name="partnerName" placeholder="Partner Name">
+                                <input type="tel" class="form-control form-control-sm" name="partnerPhone" placeholder="Phone">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Step 3: Family & Medical Information -->
+            <div class="form-section" id="step3">
+                <div class="section-header">
+                    <h2><i class="bi bi-heart-pulse"></i> Family & Medical Information</h2>
+                    <p>Family background, medical history, and emergency contacts.</p>
+                </div>
+
+                <h5 class="mb-3" style="color: var(--primary-maroon);">Medical Information</h5>
+                
+                <div class="row g-4">
+                    <div class="col-12">
+                        <label class="form-label">Have you received any vaccinations? (Check all that apply)</label>
+                        <div class="checkbox-grid">
+                            <div class="checkbox-item">
+                                <input class="form-check-input" type="checkbox" name="vaccinations" value="tetanus" id="vacTetanus">
+                                <label class="form-check-label ms-2" for="vacTetanus">Tetanus</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input class="form-check-input" type="checkbox" name="vaccinations" value="yellowFever" id="vacYellow">
+                                <label class="form-check-label ms-2" for="vacYellow">Yellow Fever</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input class="form-check-input" type="checkbox" name="vaccinations" value="mumps" id="vacMumps">
+                                <label class="form-check-label ms-2" for="vacMumps">Mumps</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input class="form-check-input" type="checkbox" name="vaccinations" value="hepatitisB" id="vacHepB">
+                                <label class="form-check-label ms-2" for="vacHepB">Hepatitis B</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input class="form-check-input" type="checkbox" name="vaccinations" value="rubella" id="vacRubella">
+                                <label class="form-check-label ms-2" for="vacRubella">Rubella (M.M.P.)</label>
+                            </div>
+                        </div>
+                        <div class="mt-3">
+                            <label class="form-label">Other Vaccinations</label>
+                            <input type="text" class="form-control" name="vaccinationsOther" placeholder="List any other vaccinations">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row g-4 mt-3">
+                    <div class="col-12">
+                        <label class="form-label">Brief Details of Any Illness/Disability (Physical/Psychological) / Hospital Admissions</label>
+                        <textarea class="form-control" name="illnessDetails" rows="4" placeholder="Please describe any medical conditions, disabilities, or hospital admissions..."></textarea>
+                    </div>
+                </div>
+
+                <hr class="section-divider">
+
+                <h5 class="mb-3" style="color: var(--primary-maroon);">Emergency Contacts</h5>
+                <div class="alert alert-warning-custom mb-3">
+                    <i class="bi bi-exclamation-circle"></i> Please provide at least 2 emergency contacts
+                </div>
+
+                <div id="emergencyContactsList" class="dynamic-list">
+                    <!-- Dynamic emergency contacts -->
+                </div>
+                <button type="button" class="btn-add" onclick="addEmergencyContact()">
+                    <i class="bi bi-plus-circle"></i> Add Emergency Contact
+                </button>
+
+                <hr class="section-divider">
+
+                <h5 class="mb-3" style="color: var(--primary-maroon);">Family Information</h5>
+                <p class="text-muted mb-4">Parent(s) or legal guardian(s) with whom you reside</p>
+
+                <div class="table-responsive">
+                    <table class="table table-borderless">
+                        <thead>
+                            <tr>
+                                <th style="width: 30%;"></th>
+                                <th style="width: 35%;">Parent/Guardian 1</th>
+                                <th style="width: 35%;">Parent/Guardian 2</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="form-label required-field">Full Name</td>
+                                <td><input type="text" class="form-control" name="parent1Name" required></td>
+                                <td><input type="text" class="form-control" name="parent2Name"></td>
+                            </tr>
+                            <tr>
+                                <td class="form-label">Is he/she alive?</td>
+                                <td>
+                                    <div class="d-flex gap-3">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="parent1Alive" value="yes" id="p1aliveYes" checked>
+                                            <label class="form-check-label" for="p1aliveYes">Yes</label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="parent1Alive" value="no" id="p1aliveNo">
+                                            <label class="form-check-label" for="p1aliveNo">No</label>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="d-flex gap-3">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="parent2Alive" value="yes" id="p2aliveYes" checked>
+                                            <label class="form-check-label" for="p2aliveYes">Yes</label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="parent2Alive" value="no" id="p2aliveNo">
+                                            <label class="form-check-label" for="p2aliveNo">No</label>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="form-label">Relationship</td>
+                                <td><input type="text" class="form-control" name="parent1Relation" placeholder="e.g., Father, Mother"></td>
+                                <td><input type="text" class="form-control" name="parent2Relation" placeholder="e.g., Father, Mother"></td>
+                            </tr>
+                            <tr>
+                                <td class="form-label">Home Address</td>
+                                <td><textarea class="form-control" name="parent1Address" rows="2"></textarea></td>
+                                <td><textarea class="form-control" name="parent2Address" rows="2"></textarea></td>
+                            </tr>
+                            <tr>
+                                <td class="form-label">Town / City</td>
+                                <td><input type="text" class="form-control" name="parent1City"></td>
+                                <td><input type="text" class="form-control" name="parent2City"></td>
+                            </tr>
+                            <tr>
+                                <td class="form-label">County / Country</td>
+                                <td><input type="text" class="form-control" name="parent1County"></td>
+                                <td><input type="text" class="form-control" name="parent2County"></td>
+                            </tr>
+                            <tr>
+                                <td class="form-label">Highest Education</td>
+                                <td><input type="text" class="form-control" name="parent1Education"></td>
+                                <td><input type="text" class="form-control" name="parent2Education"></td>
+                            </tr>
+                            <tr>
+                                <td class="form-label required-field">Primary Phone</td>
+                                <td><input type="tel" class="form-control" name="parent1Phone" required></td>
+                                <td><input type="tel" class="form-control" name="parent2Phone"></td>
+                            </tr>
+                            <tr>
+                                <td class="form-label">Employer Name</td>
+                                <td><input type="text" class="form-control" name="parent1Employer"></td>
+                                <td><input type="text" class="form-control" name="parent2Employer"></td>
+                            </tr>
+                            <tr>
+                                <td class="form-label">Job Title <small class="text-muted">(Not "Business man/woman")</small></td>
+                                <td><input type="text" class="form-control" name="parent1Job"></td>
+                                <td><input type="text" class="form-control" name="parent2Job"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="row g-4 mt-3">
+                    <div class="col-md-6">
+                        <label class="form-label required-field">Have any relatives received a GPFA scholarship?</label>
+                        <div class="d-flex gap-4 mt-2">
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="relativesAwarded" value="no" id="relativesNo" checked onchange="toggleRelatives()">
+                                <label class="form-check-label" for="relativesNo">No</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="relativesAwarded" value="yes" id="relativesYes" onchange="toggleRelatives()">
+                                <label class="form-check-label" for="relativesYes">Yes</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="conditional-field mt-3" id="relativesDetails">
+                    <h6 class="mb-3">Relative Scholarship Details</h6>
+                    <div id="relativesList" class="dynamic-list">
+                        <!-- Dynamic relatives -->
+                    </div>
+                    <button type="button" class="btn-add" onclick="addRelative()">
+                        <i class="bi bi-plus-circle"></i> Add Relative
+                    </button>
+                </div>
+
+                <div class="row g-4 mt-4">
+                    <div class="col-12">
+                        <label class="form-label">If transferring from current scholarship, explain why:</label>
+                        <textarea class="form-control" name="transferReason" rows="3" placeholder="List current scholarship and reasons for change..."></textarea>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Step 4: Academic History -->
+            <div class="form-section" id="step4">
+                <div class="section-header">
+                    <h2><i class="bi bi-mortarboard"></i> Academic History</h2>
+                    <p>Your educational background, academic discipline, and extracurricular activities.</p>
+                </div>
+
+                <div class="alert alert-custom mb-4">
+                    <h6><i class="bi bi-exclamation-triangle-fill"></i> Academic Discipline Notice</h6>
+                    <p class="mb-2">Have you ever been dismissed or suspended from an academic institution? If yes, you must explain the circumstances in a letter addressed to GPFA.</p>
+                    <div class="d-flex gap-4 mt-2">
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="dismissed" value="no" id="dismissedNo" checked>
+                            <label class="form-check-label" for="dismissedNo">No</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="dismissed" value="yes" id="dismissedYes" onchange="toggleDismissal()">
+                            <label class="form-check-label" for="dismissedYes">Yes</label>
+                        </div>
+                    </div>
+                    <div id="dismissalDetails" class="conditional-field mt-3" style="display: none;">
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label class="form-label required-field">Institution Name</label>
+                                <input type="text" class="form-control" name="dismissalInstitution">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label required-field">Location</label>
+                                <input type="text" class="form-control" name="dismissalLocation">
+                            </div>
+                            <div class="col-12">
+                                <label class="form-label required-field">Explanation Letter</label>
+                                <textarea class="form-control" name="dismissalExplanation" rows="4" placeholder="Detailed explanation of circumstances..."></textarea>
+                                <div class="form-text text-muted">This will be uploaded in the Documents section</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <h5 class="mb-3" style="color: var(--primary-maroon);">Schools Attended</h5>
+                <p class="text-muted mb-3">List every school or university attended including primary school</p>
+                
+                <div id="schoolsList" class="dynamic-list">
+                    <!-- Dynamic schools -->
+                </div>
+                <button type="button" class="btn-add" onclick="addSchool()">
+                    <i class="bi bi-plus-circle"></i> Add School
+                </button>
+
+                <div class="row g-4 mt-4">
+                    <div class="col-12">
+                        <label class="form-label">Scholastic Distinctions or Honors</label>
+                        <textarea class="form-control" name="honors" rows="4" placeholder="Describe any academic awards, honors, or distinctions..."></textarea>
+                    </div>
+                </div>
+
+                <hr class="section-divider">
+
+                <h5 class="mb-3" style="color: var(--primary-maroon);">Extracurricular Activities & Interests</h5>
+                <p class="text-muted mb-3">Chess, sports, community services, church, school activities, etc.</p>
+                
+                <div id="activitiesList" class="dynamic-list">
+                    <!-- Dynamic activities -->
+                </div>
+                <button type="button" class="btn-add" onclick="addActivity()">
+                    <i class="bi bi-plus-circle"></i> Add Activity
+                </button>
+
+                <hr class="section-divider">
+
+                <h5 class="mb-3" style="color: var(--primary-maroon);">Countries Visited</h5>
+                <p class="text-muted mb-3">Complete information on countries visited outside of Liberia</p>
+                
+                <div id="countriesList" class="dynamic-list">
+                    <!-- Dynamic countries -->
+                </div>
+                <button type="button" class="btn-add" onclick="addCountry()">
+                    <i class="bi bi-plus-circle"></i> Add Country
+                </button>
+
+                <hr class="section-divider">
+
+                <h5 class="mb-3" style="color: var(--primary-maroon);">Work Experience</h5>
+                <p class="text-muted mb-3">Jobs held in the last three years (summer, voluntary, family, unpaid)</p>
+                
+                <div id="workList" class="dynamic-list">
+                    <!-- Dynamic work experience -->
+                </div>
+                <button type="button" class="btn-add" onclick="addWork()">
+                    <i class="bi bi-plus-circle"></i> Add Work Experience
+                </button>
+
+                <hr class="section-divider">
+
+                <h5 class="mb-3" style="color: var(--primary-maroon);">University Applications</h5>
+                <p class="text-muted mb-3">Which universities have you applied to or intend to apply (locally and internationally)?</p>
+                
+                <div id="universitiesList" class="dynamic-list">
+                    <!-- Dynamic universities -->
+                </div>
+                <button type="button" class="btn-add" onclick="addUniversity()">
+                    <i class="bi bi-plus-circle"></i> Add University
+                </button>
+            </div>
+
+            <!-- Step 5: Financial Aid Application -->
+            <div class="form-section" id="step5">
+                <div class="section-header">
+                    <h2><i class="bi bi-cash-coin"></i> Financial Aid Application</h2>
+                    <p>Detailed financial information for need-based assessment. All information is strictly confidential.</p>
+                </div>
+
+                <div class="info-box">
+                    <h6><i class="bi bi-info-circle"></i> Important Instructions</h6>
+                    <ul>
+                        <li>Complete this application with your parent or guardian</li>
+                        <li>Include supporting documentation (bank statements, pay slips, loan documents)</li>
+                        <li>Scholarships are only for students who cannot afford full fees</li>
+                        <li>Include a letter detailing reasons why you need a scholarship</li>
+                        <li>Do not request more assistance than you need - resources are limited</li>
+                        <li>All information must be accurate. Falsification results in termination of award</li>
+                    </ul>
+                </div>
+
+                <div class="row g-4">
+                    <div class="col-md-6">
+                        <label class="form-label required-field">Country</label>
+                        <input type="text" class="form-control" name="faCountry" required>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label required-field">County of Origin (if applicable)</label>
+                        <input type="text" class="form-control" name="faCounty" required>
+                    </div>
+                </div>
+
+                <hr class="section-divider">
+
+                <h5 class="mb-3" style="color: var(--primary-maroon);">Parent Information</h5>
+                <div class="row g-4">
+                    <div class="col-md-6">
+                        <h6 class="mb-3">Mother</h6>
+                        <div class="mb-3">
+                            <label class="form-label required-field">Full Name</label>
+                            <input type="text" class="form-control" name="faMotherName" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Deceased?</label>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" name="faMotherDeceased" id="faMotherDeceased">
+                                <label class="form-check-label" for="faMotherDeceased">Yes, deceased</label>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">County of Residence</label>
+                            <input type="text" class="form-control" name="faMotherCounty">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">City</label>
+                            <input type="text" class="form-control" name="faMotherCity">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Age</label>
+                            <input type="number" class="form-control" name="faMotherAge" min="0">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Employer Name</label>
+                            <input type="text" class="form-control" name="faMotherEmployer">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Job Title</label>
+                            <input type="text" class="form-control" name="faMotherJob">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <h6 class="mb-3">Father</h6>
+                        <div class="mb-3">
+                            <label class="form-label required-field">Full Name</label>
+                            <input type="text" class="form-control" name="faFatherName" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Deceased?</label>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" name="faFatherDeceased" id="faFatherDeceased">
+                                <label class="form-check-label" for="faFatherDeceased">Yes, deceased</label>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">County of Residence</label>
+                            <input type="text" class="form-control" name="faFatherCounty">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">City</label>
+                            <input type="text" class="form-control" name="faFatherCity">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Age</label>
+                            <input type="number" class="form-control" name="faFatherAge" min="0">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Employer Name</label>
+                            <input type="text" class="form-control" name="faFatherEmployer">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Job Title</label>
+                            <input type="text" class="form-control" name="faFatherJob">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row g-4 mt-2">
+                    <div class="col-md-6">
+                        <label class="form-label required-field">Marital Status</label>
+                        <select class="form-select" name="faMaritalStatus" required>
+                            <option value="">Select Status</option>
+                            <option value="single">Single</option>
+                            <option value="married">Married</option>
+                            <option value="neverMarried">Never Married</option>
+                            <option value="separated">Separated/Divorced</option>
+                            <option value="widowed">Widow/er</option>
+                        </select>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label required-field">Number of Children (including you)</label>
+                        <input type="number" class="form-control" name="faChildrenCount" required min="1">
+                    </div>
+                </div>
+
+                <hr class="section-divider">
+
+                <h5 class="mb-3" style="color: var(--primary-maroon);">Sponsor Information</h5>
+                <p class="text-muted mb-3">Sponsors of your education other than parents</p>
+                
+                <div id="sponsorsList" class="dynamic-list">
+                    <!-- Dynamic sponsors -->
+                </div>
+                <button type="button" class="btn-add" onclick="addSponsor()">
+                    <i class="bi bi-plus-circle"></i> Add Sponsor
+                </button>
+
+                <hr class="section-divider">
+
+                <h5 class="mb-3" style="color: var(--primary-maroon);">Family Dependents</h5>
+                <div class="row g-4 mb-4">
+                    <div class="col-md-6">
+                        <label class="form-label required-field">People dependent on parents' income for daily living</label>
+                        <input type="number" class="form-control" name="dependentsDaily" required min="1">
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label required-field">People dependent on parents for educational costs</label>
+                        <input type="number" class="form-control" name="dependentsEducation" required min="1">
+                    </div>
+                </div>
+
+                <h6 class="mb-3">Family Members Living in Parents' Home</h6>
+                <div id="familyMembersList" class="dynamic-list">
+                    <!-- Dynamic family members -->
+                </div>
+                <button type="button" class="btn-add" onclick="addFamilyMember()">
+                    <i class="bi bi-plus-circle"></i> Add Family Member
+                </button>
+
+                <hr class="section-divider">
+
+                <h5 class="mb-3" style="color: var(--primary-maroon);">Family Yearly Income</h5>
+                <p class="text-muted mb-3">From all sources (USD/Liberian Dollars)</p>
+                
+                <div class="row g-4">
+                    <div class="col-md-6">
+                        <label class="form-label">Mother's Work</label>
+                        <div class="input-group">
+                            <span class="input-group-text">$</span>
+                            <input type="number" class="form-control currency-input" name="incomeMother" min="0" step="100" onchange="calculateTotalIncome()">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label">Father's Work</label>
+                        <div class="input-group">
+                            <span class="input-group-text">$</span>
+                            <input type="number" class="form-control currency-input" name="incomeFather" min="0" step="100" onchange="calculateTotalIncome()">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label">First Family Business</label>
+                        <div class="input-group">
+                            <span class="input-group-text">$</span>
+                            <input type="number" class="form-control currency-input" name="incomeBusiness1" min="0" step="100" onchange="calculateTotalIncome()">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label">Real Estate Rentals</label>
+                        <div class="input-group">
+                            <span class="input-group-text">$</span>
+                            <input type="number" class="form-control currency-input" name="incomeRealEstate" min="0" step="100" onchange="calculateTotalIncome()">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label">Pension/Retirement Funds</label>
+                        <div class="input-group">
+                            <span class="input-group-text">$</span>
+                            <input type="number" class="form-control currency-input" name="incomePension" min="0" step="100" onchange="calculateTotalIncome()">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label">Relatives (specify)</label>
+                        <div class="row g-2">
+                            <div class="col-6">
+                                <input type="text" class="form-control" name="incomeRelativeSource" placeholder="Source">
+                            </div>
+                            <div class="col-6">
+                                <div class="input-group">
+                                    <span class="input-group-text">$</span>
+                                    <input type="number" class="form-control currency-input" name="incomeRelative" min="0" step="100" onchange="calculateTotalIncome()">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="financial-summary-box">
+                    <h5><i class="bi bi-calculator"></i> Total Family Income</h5>
+                    <div class="financial-row">
+                        <span>Calculated Total:</span>
+                        <span id="totalIncomeDisplay">$0.00</span>
+                    </div>
+                </div>
+
+                <div class="row g-4 mt-4">
+                    <div class="col-12">
+                        <label class="form-label">Expected Income Changes</label>
+                        <textarea class="form-control" name="incomeChanges" rows="3" placeholder="Significant increases or decreases in parents' income this year..."></textarea>
+                    </div>
+                </div>
+
+                <hr class="section-divider">
+
+                <h5 class="mb-3" style="color: var(--primary-maroon);">Living Expenses</h5>
+                <p class="text-muted mb-3">Annual household expenses (USD/LD)</p>
+                
+                <div class="row g-4">
+                    <div class="col-md-4">
+                        <label class="form-label">Rent or Mortgage</label>
+                        <div class="input-group">
+                            <span class="input-group-text">$</span>
+                            <input type="number" class="form-control currency-input" name="expenseRent" min="0" step="100" onchange="calculateTotalExpenses()">
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label">Food</label>
+                        <div class="input-group">
+                            <span class="input-group-text">$</span>
+                            <input type="number" class="form-control currency-input" name="expenseFood" min="0" step="100" onchange="calculateTotalExpenses()">
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label">Taxes</label>
+                        <div class="input-group">
+                            <span class="input-group-text">$</span>
+                            <input type="number" class="form-control currency-input" name="expenseTaxes" min="0" step="100" onchange="calculateTotalExpenses()">
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label">Public Transportation</label>
+                        <div class="input-group">
+                            <span class="input-group-text">$</span>
+                            <input type="number" class="form-control currency-input" name="expenseTransport" min="0" step="100" onchange="calculateTotalExpenses()">
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label">Petrol/Diesel</label>
+                        <div class="input-group">
+                            <span class="input-group-text">$</span>
+                            <input type="number" class="form-control currency-input" name="expenseFuel" min="0" step="100" onchange="calculateTotalExpenses()">
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label">Electricity Bills</label>
+                        <div class="input-group">
+                            <span class="input-group-text">$</span>
+                            <input type="number" class="form-control currency-input" name="expenseElectricity" min="0" step="100" onchange="calculateTotalExpenses()">
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label">School Fees</label>
+                        <div class="input-group">
+                            <span class="input-group-text">$</span>
+                            <input type="number" class="form-control currency-input" name="expenseSchool" min="0" step="100" onchange="calculateTotalExpenses()">
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label">Medical Bills</label>
+                        <div class="input-group">
+                            <span class="input-group-text">$</span>
+                            <input type="number" class="form-control currency-input" name="expenseMedical" min="0" step="100" onchange="calculateTotalExpenses()">
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label">Health Insurance</label>
+                        <div class="input-group">
+                            <span class="input-group-text">$</span>
+                            <input type="number" class="form-control currency-input" name="expenseInsurance" min="0" step="100" onchange="calculateTotalExpenses()">
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label">House Help</label>
+                        <div class="input-group">
+                            <span class="input-group-text">$</span>
+                            <input type="number" class="form-control currency-input" name="expenseHouseHelp" min="0" step="100" onchange="calculateTotalExpenses()">
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label">Entertainment</label>
+                        <div class="input-group">
+                            <span class="input-group-text">$</span>
+                            <input type="number" class="form-control currency-input" name="expenseEntertainment" min="0" step="100" onchange="calculateTotalExpenses()">
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label">Vacations</label>
+                        <div class="input-group">
+                            <span class="input-group-text">$</span>
+                            <input type="number" class="form-control currency-input" name="expenseVacations" min="0" step="100" onchange="calculateTotalExpenses()">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="financial-summary-box mt-4">
+                    <h5><i class="bi bi-calculator"></i> Total Living Expenses</h5>
+                    <div class="financial-row">
+                        <span>Calculated Total:</span>
+                        <span id="totalExpensesDisplay">$0.00</span>
+                    </div>
+                </div>
+
+                <div class="row g-4 mt-4">
+                    <div class="col-12">
+                        <label class="form-label">If expenses exceed income, explain how expenses were met:</label>
+                        <textarea class="form-control" name="expenseExplanation" rows="3"></textarea>
+                    </div>
+                </div>
+
+                <hr class="section-divider">
+
+                <h5 class="mb-3" style="color: var(--primary-maroon);">Assets & Property</h5>
+                <div class="row g-4">
+                    <div class="col-md-6">
+                        <label class="form-label required-field">Does your family own its own home?</label>
+                        <div class="d-flex gap-4 mt-2">
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="ownsHome" value="no" id="ownsHomeNo" required>
+                                <label class="form-check-label" for="ownsHomeNo">No</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="ownsHome" value="yes" id="ownsHomeYes">
+                                <label class="form-check-label" for="ownsHomeYes">Yes</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label required-field">Number of Vehicles</label>
+                        <input type="number" class="form-control" name="vehicleCount" min="0" value="0" onchange="toggleVehicleDetails()">
+                    </div>
+                </div>
+
+                <div class="conditional-field mt-3" id="vehicleDetails">
+                    <h6 class="mb-3">Vehicle Details</h6>
+                    <div id="vehiclesList" class="dynamic-list">
+                        <!-- Dynamic vehicles -->
+                    </div>
+                </div>
+
+                <div class="row g-4 mt-3">
+                    <div class="col-md-6">
+                        <label class="form-label">Money Owed to Others</label>
+                        <div class="input-group">
+                            <span class="input-group-text">$</span>
+                            <input type="number" class="form-control currency-input" name="moneyOwed" min="0" step="100">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label">Purpose of Borrowing</label>
+                        <input type="text" class="form-control" name="borrowingPurpose">
+                    </div>
+                </div>
+
+                <div class="row g-4 mt-3">
+                    <div class="col-md-6">
+                        <label class="form-label required-field">Family Contribution to Education (Annual)</label>
+                        <div class="input-group">
+                            <span class="input-group-text">$</span>
+                            <input type="number" class="form-control currency-input" name="familyContribution" required min="0" step="100">
+                        </div>
+                        <div class="form-text text-muted">Same amount expected for next 4 years</div>
+                    </div>
+                </div>
+
+                <hr class="section-divider">
+
+                <h5 class="mb-3" style="color: var(--primary-maroon);">Other Scholarships</h5>
+                <div class="row g-4 mb-3">
+                    <div class="col-12">
+                        <label class="form-label required-field">Will you receive any other scholarships?</label>
+                        <textarea class="form-control" name="otherScholarships" rows="3" required placeholder="List organizations, amounts requested, and expected decision dates..."></textarea>
+                    </div>
+                </div>
+
+                <h6 class="mb-3">Organizations Applied To</h6>
+                <div id="otherScholarshipsList" class="dynamic-list">
+                    <!-- Dynamic other scholarships -->
+                </div>
+                <button type="button" class="btn-add" onclick="addOtherScholarship()">
+                    <i class="bi bi-plus-circle"></i> Add Organization
+                </button>
+            </div>
+
+            <!-- Step 6: Document Upload -->
+            <div class="form-section" id="step6">
+                <div class="section-header">
+                    <h2><i class="bi bi-cloud-upload"></i> Document Upload</h2>
+                    <p>Upload all required documents. Accepted formats: PDF, JPG, PNG (Max 5MB each).</p>
+                </div>
+
+                <div class="alert alert-custom mb-4">
+                    <h6><i class="bi bi-exclamation-triangle-fill"></i> Document Requirements</h6>
+                    <ul class="mb-0 mt-2">
+                        <li>All documents must be clear, legible, and official</li>
+                        <li>Blurry or incomplete documents will delay your application</li>
+                        <li>Combine multiple pages into single PDF where possible</li>
+                        <li>Name your files clearly (e.g., "John_Doe_WAEC.pdf")</li>
+                    </ul>
+                </div>
+
+                <div class="row g-4">
+                    <!-- Required Documents -->
+                    <div class="col-md-6">
+                        <div class="upload-zone" onclick="document.getElementById('docAdmission').click()">
+                            <i class="bi bi-file-earmark-text"></i>
+                            <h4>Admission Letter</h4>
+                            <p class="text-muted">Official admission letter from institution</p>
+                            <span class="badge bg-danger mb-2">Required</span>
+                            <input type="file" id="docAdmission" name="docAdmission" accept=".pdf,.jpg,.png" required style="display: none;" onchange="handleFileUpload(this, 'admission')">
+                        </div>
+                        <div id="admissionFileList" class="file-list"></div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="upload-zone" onclick="document.getElementById('docGradeSheet').click()">
+                            <i class="bi bi-file-earmark-bar-graph"></i>
+                            <h4>Grade Sheet / Progress Report</h4>
+                            <p class="text-muted">Final examination results or recent transcripts</p>
+                            <span class="badge bg-danger mb-2">Required</span>
+                            <input type="file" id="docGradeSheet" name="docGradeSheet" accept=".pdf,.jpg,.png" required style="display: none;" onchange="handleFileUpload(this, 'gradeSheet')">
+                        </div>
+                        <div id="gradeSheetFileList" class="file-list"></div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="upload-zone" onclick="document.getElementById('docFinancialAid').click()">
+                            <i class="bi bi-file-earmark-check"></i>
+                            <h4>Financial Aid Form</h4>
+                            <p class="text-muted">Signed Financial Aid application form</p>
+                            <span class="badge bg-danger mb-2">Required</span>
+                            <input type="file" id="docFinancialAid" name="docFinancialAid" accept=".pdf,.jpg,.png" required style="display: none;" onchange="handleFileUpload(this, 'financialAid')">
+                        </div>
+                        <div id="financialAidFileList" class="file-list"></div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="upload-zone" onclick="document.getElementById('docPhoto').click()">
+                            <i class="bi bi-person-square"></i>
+                            <h4>Passport Photograph</h4>
+                            <p class="text-muted">Recent photo with name written on back (scan both sides)</p>
+                            <span class="badge bg-danger mb-2">Required</span>
+                            <input type="file" id="docPhoto" name="docPhoto" accept=".jpg,.png" required style="display: none;" onchange="handleFileUpload(this, 'photo')">
+                        </div>
+                        <div id="photoFileList" class="file-list"></div>
+                    </div>
+
+                    <!-- Supporting Documents -->
+                    <div class="col-md-6">
+                        <div class="upload-zone" onclick="document.getElementById('docTranscript').click()">
+                            <i class="bi bi-file-earmark-richtext"></i>
+                            <h4>School Transcripts</h4>
+                            <p class="text-muted">Complete academic records from all schools</p>
+                            <span class="badge bg-warning text-dark mb-2">Recommended</span>
+                            <input type="file" id="docTranscript" name="docTranscript" accept=".pdf,.jpg,.png" multiple style="display: none;" onchange="handleFileUpload(this, 'transcript')">
+                        </div>
+                        <div id="transcriptFileList" class="file-list"></div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="upload-zone" onclick="document.getElementById('docWaec').click()">
+                            <i class="bi bi-file-earmark-check-fill"></i>
+                            <h4>WAEC Results</h4>
+                            <p class="text-muted">WAEC certificate or result slip</p>
+                            <span class="badge bg-warning text-dark mb-2">Recommended</span>
+                            <input type="file" id="docWaec" name="docWaec" accept=".pdf,.jpg,.png" style="display: none;" onchange="handleFileUpload(this, 'waec')">
+                        </div>
+                        <div id="waecFileList" class="file-list"></div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="upload-zone" onclick="document.getElementById('docId').click()">
+                            <i class="bi bi-card-text"></i>
+                            <h4>ID Document</h4>
+                            <p class="text-muted">Birth certificate, passport, or national ID</p>
+                            <span class="badge bg-warning text-dark mb-2">Recommended</span>
+                            <input type="file" id="docId" name="docId" accept=".pdf,.jpg,.png" style="display: none;" onchange="handleFileUpload(this, 'id')">
+                        </div>
+                        <div id="idFileList" class="file-list"></div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="upload-zone" onclick="document.getElementById('docFinancial').click()">
+                            <i class="bi bi-bank"></i>
+                            <h4>Financial Documents</h4>
+                            <p class="text-muted">Bank statements, pay slips, loan documents, tax returns</p>
+                            <span class="badge bg-warning text-dark mb-2">Recommended</span>
+                            <input type="file" id="docFinancial" name="docFinancial" accept=".pdf,.jpg,.png" multiple style="display: none;" onchange="handleFileUpload(this, 'financial')">
+                        </div>
+                        <div id="financialFileList" class="file-list"></div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="upload-zone" onclick="document.getElementById('docMedical').click()">
+                            <i class="bi bi-heart-pulse"></i>
+                            <h4>Medical Certificate</h4>
+                            <p class="text-muted">Health clearance from licensed physician</p>
+                            <span class="badge bg-secondary mb-2">Optional</span>
+                            <input type="file" id="docMedical" name="docMedical" accept=".pdf,.jpg,.png" style="display: none;" onchange="handleFileUpload(this, 'medical')">
+                        </div>
+                        <div id="medicalFileList" class="file-list"></div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="upload-zone" onclick="document.getElementById('docRecommendation').click()">
+                            <i class="bi bi-envelope-paper"></i>
+                            <h4>Recommendation Letter</h4>
+                            <p class="text-muted">From academic or professional referee</p>
+                            <span class="badge bg-secondary mb-2">Optional</span>
+                            <input type="file" id="docRecommendation" name="docRecommendation" accept=".pdf,.jpg,.png" style="display: none;" onchange="handleFileUpload(this, 'recommendation')">
+                        </div>
+                        <div id="recommendationFileList" class="file-list"></div>
+                    </div>
+
+                    <div class="col-12">
+                        <div class="upload-zone" onclick="document.getElementById('docScholarshipLetter').click()">
+                            <i class="bi bi-pencil-square"></i>
+                            <h4>Scholarship Need Letter</h4>
+                            <p class="text-muted">Detailed letter explaining why you need financial assistance</p>
+                            <span class="badge bg-danger mb-2">Required</span>
+                            <input type="file" id="docScholarshipLetter" name="docScholarshipLetter" accept=".pdf,.doc,.docx" required style="display: none;" onchange="handleFileUpload(this, 'scholarshipLetter')">
+                        </div>
+                        <div id="scholarshipLetterFileList" class="file-list"></div>
+                    </div>
+                </div>
+
+                <div class="mt-4">
+                    <label class="form-label">Additional Comments Regarding Documents</label>
+                    <textarea class="form-control" name="documentComments" rows="3" placeholder="Any special circumstances regarding your documents..."></textarea>
+                </div>
+            </div>
+
+            <!-- Step 7: Review & Submit -->
+            <div class="form-section" id="step7">
+                <div class="section-header">
+                    <h2><i class="bi bi-check-circle"></i> Review & Submit</h2>
+                    <p>Carefully review all information before submitting your application.</p>
+                </div>
+
+                <div id="reviewContent">
+                    <!-- Review sections populated dynamically -->
+                </div>
+
+                <div class="mt-4 p-4 bg-light rounded-3 border">
+                    <h5 class="mb-4" style="color: var(--primary-maroon);">
+                        <i class="bi bi-shield-check"></i> Certifications & Signatures
+                    </h5>
+                    
+                    <div class="mb-4">
+                        <h6>Student Certification</h6>
+                        <p class="text-muted small mb-3">I certify that all information provided is true, correct, and complete. I authorize GPFA to obtain additional information concerning my education and financial records. I understand that providing false information could result in revocation of my scholarship award.</p>
+                        <div class="form-check mb-3">
+                            <input class="form-check-input" type="checkbox" id="certStudent" required>
+                            <label class="form-check-label" for="certStudent">
+                                I agree to the Student Certification statement above
+                            </label>
+                        </div>
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label class="form-label required-field">Student Signature</label>
+                                <canvas class="signature-pad" id="studentSignature"></canvas>
+                                <button type="button" class="btn btn-sm btn-outline-secondary mt-2" onclick="clearSignature('studentSignature')">Clear</button>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label required-field">Date</label>
+                                <input type="date" class="form-control" name="studentSignatureDate" required>
+                            </div>
+                        </div>
+                    </div>
+
+                    <hr>
+
+                    <div class="mb-4">
+                        <h6>Parent/Sponsor Declaration</h6>
+                        <p class="text-muted small mb-3">I declare that I have read this form and confirm that the information given is true to the best of my knowledge.</p>
+                        
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <div class="form-check mb-2">
+                                    <input class="form-check-input" type="checkbox" name="parentSignatories" value="father" id="signFather">
+                                    <label class="form-check-label" for="signFather">Father's Signature Required</label>
+                                </div>
+                                <div id="fatherSignPad" style="display: none;">
+                                    <canvas class="signature-pad" id="fatherSignature"></canvas>
+                                    <button type="button" class="btn btn-sm btn-outline-secondary mt-2" onclick="clearSignature('fatherSignature')">Clear</button>
+                                    <input type="date" class="form-control mt-2" name="fatherSignDate" placeholder="Date">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-check mb-2">
+                                    <input class="form-check-input" type="checkbox" name="parentSignatories" value="mother" id="signMother">
+                                    <label class="form-check-label" for="signMother">Mother's Signature Required</label>
+                                </div>
+                                <div id="motherSignPad" style="display: none;">
+                                    <canvas class="signature-pad" id="motherSignature"></canvas>
+                                    <button type="button" class="btn btn-sm btn-outline-secondary mt-2" onclick="clearSignature('motherSignature')">Clear</button>
+                                    <input type="date" class="form-control mt-2" name="motherSignDate" placeholder="Date">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row g-3 mt-3">
+                            <div class="col-md-6">
+                                <div class="form-check mb-2">
+                                    <input class="form-check-input" type="checkbox" name="parentSignatories" value="guardian" id="signGuardian">
+                                    <label class="form-check-label" for="signGuardian">Guardian's Signature Required</label>
+                                </div>
+                                <div id="guardianSignPad" style="display: none;">
+                                    <canvas class="signature-pad" id="guardianSignCanvas"></canvas>
+                                    <button type="button" class="btn btn-sm btn-outline-secondary mt-2" onclick="clearSignature('guardianSignCanvas')">Clear</button>
+                                    <input type="date" class="form-control mt-2" name="guardianSignDate" placeholder="Date">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-check mb-2">
+                                    <input class="form-check-input" type="checkbox" name="parentSignatories" value="sponsor" id="signSponsor">
+                                    <label class="form-check-label" for="signSponsor">Sponsor's Signature Required</label>
+                                </div>
+                                <div id="sponsorSignPad" style="display: none;">
+                                    <canvas class="signature-pad" id="sponsorSignature"></canvas>
+                                    <button type="button" class="btn btn-sm btn-outline-secondary mt-2" onclick="clearSignature('sponsorSignature')">Clear</button>
+                                    <input type="date" class="form-control mt-2" name="sponsorSignDate" placeholder="Date">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="alert alert-warning-custom mt-4">
+                        <i class="bi bi-exclamation-circle-fill"></i>
+                        <strong>Warning:</strong> Any misrepresentation of information will result in rejection of your application or termination of your scholarship if discovered after award.
+                    </div>
+                </div>
+            </div>
+
+            <!-- Navigation Buttons -->
+            <div class="navigation-buttons">
+                <button type="button" class="btn btn-nav btn-prev" id="prevBtn" onclick="changeStep(-1)" style="display: none;">
+                    <i class="bi bi-arrow-left"></i> Previous
+                </button>
+                <button type="button" class="btn btn-nav btn-next" id="nextBtn" onclick="changeStep(1)">
+                    Next <i class="bi bi-arrow-right"></i>
+                </button>
+                <button type="submit" class="btn btn-nav btn-submit" id="submitBtn" style="display: none;">
+                    <i class="bi bi-check-lg"></i> Submit Application
+                </button>
+            </div>
+        </form>
+    </div>
+
+    <!-- Loading Overlay -->
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="spinner-custom"></div>
+        <h4 class="mt-4" style="color: var(--primary-maroon);">Submitting Application...</h4>
+        <p class="text-muted">Please do not close this window. Uploading documents...</p>
+    </div>
+
+    <!-- Toast Container -->
+    <div class="toast-container"></div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        let currentStep = 1;
+        const totalSteps = 7;
+        const uploadedFiles = {};
+        const signatures = {};
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            updateStepper();
+            initializeSignatures();
+            
+            // Add initial empty rows
+            addEmergencyContact();
+            addSchool();
+            addCountry();
+            addWork();
+            
+            // Set up radio button listeners
+            document.getElementById('genderOther').addEventListener('change', function() {
+                document.getElementById('genderOtherText').style.display = this.checked ? 'block' : 'none';
+                document.getElementById('genderOtherText').required = this.checked;
+            });
+            
+            document.getElementById('citizenOther').addEventListener('change', function() {
+                document.getElementById('citizenshipOtherText').style.display = this.checked ? 'block' : 'none';
+                document.getElementById('citizenshipOtherText').required = this.checked;
+            });
+            
+            // Parent signatory toggles
+            ['Father', 'Mother', 'Guardian', 'Sponsor'].forEach(type => {
+                document.getElementById(`sign${type}`).addEventListener('change', function() {
+                    document.getElementById(`${type.toLowerCase()}SignPad`).style.display = this.checked ? 'block' : 'none';
+                });
+            });
+        });
+
+        // Step Navigation
+        function changeStep(direction) {
+            if (direction === 1 && !validateCurrentStep()) {
+                showToast('Please fill in all required fields before proceeding.', 'error');
+                return;
+            }
+
+            const newStep = currentStep + direction;
+            if (newStep >= 1 && newStep <= totalSteps) {
+                document.getElementById(`step${currentStep}`).classList.remove('active');
+                currentStep = newStep;
+                document.getElementById(`step${currentStep}`).classList.add('active');
+                
+                if (currentStep === totalSteps) {
+                    generateReview();
+                }
+                
+                updateStepper();
+                updateButtons();
+                updateProgressBar();
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+        }
+
+        function updateStepper() {
+            document.querySelectorAll('.step').forEach((step, index) => {
+                const stepNum = index + 1;
+                step.classList.remove('active', 'completed');
+                
+                if (stepNum === currentStep) {
+                    step.classList.add('active');
+                } else if (stepNum < currentStep) {
+                    step.classList.add('completed');
+                }
+            });
+        }
+
+        function updateButtons() {
+            document.getElementById('prevBtn').style.display = currentStep === 1 ? 'none' : 'flex';
+            document.getElementById('nextBtn').style.display = currentStep === totalSteps ? 'none' : 'flex';
+            document.getElementById('submitBtn').style.display = currentStep === totalSteps ? 'flex' : 'none';
+        }
+
+        function updateProgressBar() {
+            const progress = ((currentStep - 1) / (totalSteps - 1)) * 100;
+            document.getElementById('progressBar').style.width = `${progress}%`;
+        }
+
+        // Validation
+        function validateCurrentStep() {
+            const currentSection = document.getElementById(`step${currentStep}`);
+            const requiredFields = currentSection.querySelectorAll('[required]:not([style*="display: none"]) input, [required]:not([style*="display: none"]) select, [required]:not([style*="display: none"]) textarea, input[required]:not([style*="display: none"]), select[required]:not([style*="display: none"]), textarea[required]:not([style*="display: none"])');
+            let valid = true;
+
+            requiredFields.forEach(field => {
+                if (field.offsetParent === null) return; // Skip hidden fields
+                
+                if (!field.value.trim() || (field.type === 'checkbox' && !field.checked)) {
+                    valid = false;
+                    field.classList.add('is-invalid');
+                    field.addEventListener('input', function() {
+                        this.classList.remove('is-invalid');
+                    }, { once: true });
+                } else {
+                    field.classList.remove('is-invalid');
+                }
+            });
+
+            return valid;
+        }
+
+        // Age Check
+        function checkAge() {
+            const dob = new Date(document.getElementById('birthDate').value);
+            const today = new Date();
+            let age = today.getFullYear() - dob.getFullYear();
+            const monthDiff = today.getMonth() - dob.getMonth();
+            
+            if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < dob.getDate())) {
+                age--;
+            }
+
+            const guardianSection = document.getElementById('guardianSignatureSection');
+            if (age < 18) {
+                guardianSection.classList.add('show');
+                guardianSection.querySelectorAll('input, select').forEach(el => {
+                    if (el.id !== 'guardianRelationshipOther') el.required = true;
+                });
+            } else {
+                guardianSection.classList.remove('show');
+                guardianSection.querySelectorAll('input, select').forEach(el => el.required = false);
+            }
+        }
+
+        // Toggle Functions
+        function togglePreviousApplication() {
+            const details = document.getElementById('previousApplicationYear');
+            const isYes = document.getElementById('appliedYes').checked;
+            details.style.display = isYes ? 'block' : 'none';
+            details.querySelector('input').required = isYes;
+        }
+
+        function toggleOtherSource() {
+            const select = document.querySelector('[name="learnedAbout"]');
+            const other = document.getElementById('learnedAboutOther');
+            other.style.display = select.value === 'other' ? 'block' : 'none';
+            other.required = select.value === 'other';
+        }
+
+        function toggleHousing() {
+            const details = document.getElementById('housingDetails');
+            const needsHousing = document.getElementById('housingYes').checked;
+            details.style.display = needsHousing ? 'none' : 'block';
+        }
+
+        function toggleResidence(type) {
+            const checkbox = document.getElementById(`res${type.charAt(0).toUpperCase() + type.slice(1)}`);
+            const details = document.getElementById(`res${type.charAt(0).toUpperCase() + type.slice(1)}Details`);
+            details.style.display = checkbox.checked ? 'block' : 'none';
+        }
+
+        function toggleRelatives() {
+            const details = document.getElementById('relativesDetails');
+            const hasRelatives = document.getElementById('relativesYes').checked;
+            details.style.display = hasRelatives ? 'block' : 'none';
+            if (hasRelatives && document.getElementById('relativesList').children.length === 0) {
+                addRelative();
+            }
+        }
+
+        function toggleDismissal() {
+            const details = document.getElementById('dismissalDetails');
+            const isDismissed = document.getElementById('dismissedYes').checked;
+            details.style.display = isDismissed ? 'block' : 'none';
+            details.querySelectorAll('input, textarea').forEach(el => el.required = isDismissed);
+        }
+
+        function toggleVehicleDetails() {
+            const count = parseInt(document.querySelector('[name="vehicleCount"]').value) || 0;
+            const container = document.getElementById('vehicleDetails');
+            const list = document.getElementById('vehiclesList');
+            
+            if (count > 0) {
+                container.classList.add('show');
+                // Ensure we have the right number of vehicle entries
+                while (list.children.length < count) {
+                    addVehicle();
+                }
+                while (list.children.length > count) {
+                    list.lastElementChild.remove();
+                }
+            } else {
+                container.classList.remove('show');
+            }
+        }
+
+        // Dynamic List Functions
+        function createDynamicItem(html, listId) {
+            const div = document.createElement('div');
+            div.className = 'dynamic-item';
+            div.innerHTML = html + '<button type="button" class="remove-btn" onclick="this.parentElement.remove()"><i class="bi bi-x-circle"></i></button>';
+            document.getElementById(listId).appendChild(div);
+        }
+
+        function addEmergencyContact() {
+            const count = document.getElementById('emergencyContactsList').children.length + 1;
+            const html = `
+                <div class="row g-3">
+                    <div class="col-md-4">
+                        <label class="form-label required-field">${count === 1 ? '1st' : count === 2 ? '2nd' : '3rd'} Choice Name</label>
+                        <input type="text" class="form-control" name="emergencyName[]" required>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label required-field">Relationship</label>
+                        <input type="text" class="form-control" name="emergencyRelation[]" required>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label required-field">Phone</label>
+                        <input type="tel" class="form-control" name="emergencyPhone[]" required>
+                    </div>
+                </div>
+            `;
+            createDynamicItem(html, 'emergencyContactsList');
+        }
+
+        function addRelative() {
+            const html = `
+                <div class="row g-3">
+                    <div class="col-md-4">
+                        <label class="form-label required-field">Full Name</label>
+                        <input type="text" class="form-control" name="relativeName[]" required>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label required-field">How are you related?</label>
+                        <input type="text" class="form-control" name="relativeRelation[]" required>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label required-field">Year of Award</label>
+                        <input type="number" class="form-control" name="relativeYear[]" required min="2010" max="2026">
+                    </div>
+                </div>
+            `;
+            createDynamicItem(html, 'relativesList');
+        }
+
+        function addSchool() {
+            const html = `
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <label class="form-label required-field">School/University Name</label>
+                        <input type="text" class="form-control" name="schoolName[]" required>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label required-field">Location</label>
+                        <input type="text" class="form-control" name="schoolLocation[]" required>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label required-field">Dates Attended (From)</label>
+                        <input type="month" class="form-control" name="schoolDateFrom[]" required>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label required-field">Dates Attended (To)</label>
+                        <input type="month" class="form-control" name="schoolDateTo[]" required>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label">Area of Study (Major)</label>
+                        <input type="text" class="form-control" name="schoolMajor[]">
+                    </div>
+                    <div class="col-12">
+                        <label class="form-label required-field">Certificate/Degree Earned</label>
+                        <input type="text" class="form-control" name="schoolCertificate[]" required>
+                    </div>
+                </div>
+            `;
+            createDynamicItem(html, 'schoolsList');
+        }
+
+        function addActivity() {
+            const html = `
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <label class="form-label required-field">Activity</label>
+                        <input type="text" class="form-control" name="activityName[]" required>
+                    </div>
+                    <div class="col-md-3">
+                        <label class="form-label required-field">From</label>
+                        <input type="month" class="form-control" name="activityFrom[]" required>
+                    </div>
+                    <div class="col-md-3">
+                        <label class="form-label required-field">To</label>
+                        <input type="month" class="form-control" name="activityTo[]" required>
+                    </div>
+                    <div class="col-12">
+                        <label class="form-label">Honors, Positions, Certificates</label>
+                        <textarea class="form-control" name="activityHonors[]" rows="2"></textarea>
+                    </div>
+                </div>
+            `;
+            createDynamicItem(html, 'activitiesList');
+        }
+
+        function addCountry() {
+            const html = `
+                <div class="row g-3">
+                    <div class="col-md-3">
+                        <label class="form-label required-field">Country Visited</label>
+                        <input type="text" class="form-control" name="visitedCountry[]" required>
+                    </div>
+                    <div class="col-md-3">
+                        <label class="form-label required-field">Year Visited</label>
+                        <input type="number" class="form-control" name="visitedYear[]" required min="2000" max="2026">
+                    </div>
+                    <div class="col-md-3">
+                        <label class="form-label required-field">Length of Stay</label>
+                        <input type="text" class="form-control" name="visitedDuration[]" required placeholder="e.g., 2 weeks">
+                    </div>
+                    <div class="col-md-3">
+                        <label class="form-label required-field">Purpose</label>
+                        <input type="text" class="form-control" name="visitedPurpose[]" required>
+                    </div>
+                </div>
+            `;
+            createDynamicItem(html, 'countriesList');
+        }
+
+        function addWork() {
+            const html = `
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <label class="form-label required-field">Title/Description of Work</label>
+                        <input type="text" class="form-control" name="workTitle[]" required>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label required-field">Employer</label>
+                        <input type="text" class="form-control" name="workEmployer[]" required>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label required-field">Employment From</label>
+                        <input type="month" class="form-control" name="workFrom[]" required>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label required-field">Employment To</label>
+                        <input type="month" class="form-control" name="workTo[]" required>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label required-field">Hours per Week</label>
+                        <input type="number" class="form-control" name="workHours[]" required min="1" max="168">
+                    </div>
+                </div>
+            `;
+            createDynamicItem(html, 'workList');
+        }
+
+        function addUniversity() {
+            const html = `
+                <div class="row g-3">
+                    <div class="col-md-4">
+                        <label class="form-label required-field">University Name</label>
+                        <input type="text" class="form-control" name="uniName[]" required>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label required-field">Location</label>
+                        <input type="text" class="form-control" name="uniLocation[]" required>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label required-field">Major</label>
+                        <input type="text" class="form-control" name="uniMajor[]" required>
+                    </div>
+                </div>
+            `;
+            createDynamicItem(html, 'universitiesList');
+        }
+
+        function addSponsor() {
+            const html = `
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <label class="form-label required-field">Full Name</label>
+                        <input type="text" class="form-control" name="sponsorName[]" required>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label required-field">Relationship to Applicant</label>
+                        <input type="text" class="form-control" name="sponsorRelation[]" required>
+                    </div>
+                    <div class="col-md-3">
+                        <label class="form-label">Age</label>
+                        <input type="number" class="form-control" name="sponsorAge[]" min="0">
+                    </div>
+                    <div class="col-md-3">
+                        <label class="form-label">City</label>
+                        <input type="text" class="form-control" name="sponsorCity[]">
+                    </div>
+                    <div class="col-md-3">
+                        <label class="form-label">County</label>
+                        <input type="text" class="form-control" name="sponsorCounty[]">
+                    </div>
+                    <div class="col-md-3">
+                        <label class="form-label">Country</label>
+                        <input type="text" class="form-control" name="sponsorCountry[]">
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label">Employer Name</label>
+                        <input type="text" class="form-control" name="sponsorEmployer[]">
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label">Job Title</label>
+                        <input type="text" class="form-control" name="sponsorJob[]">
+                    </div>
+                </div>
+            `;
+            createDynamicItem(html, 'sponsorsList');
+        }
+
+        function addFamilyMember() {
+            const html = `
+                <div class="row g-3">
+                    <div class="col-md-4">
+                        <label class="form-label required-field">Full Name</label>
+                        <input type="text" class="form-control" name="famMemberName[]" required>
+                    </div>
+                    <div class="col-md-2">
+                        <label class="form-label required-field">Age</label>
+                        <input type="number" class="form-control" name="famMemberAge[]" required min="0">
+                    </div>
+                    <div class="col-md-2">
+                        <label class="form-label required-field">Relation</label>
+                        <input type="text" class="form-control" name="famMemberRelation[]" required>
+                    </div>
+                    <div class="col-md-2">
+                        <label class="form-label">School/Grade</label>
+                        <input type="text" class="form-control" name="famMemberSchool[]">
+                    </div>
+                    <div class="col-md-2">
+                        <label class="form-label">Annual Tuition</label>
+                        <div class="input-group">
+                            <span class="input-group-text">$</span>
+                            <input type="number" class="form-control" name="famMemberTuition[]" min="0">
+                        </div>
+                    </div>
+                </div>
+            `;
+            createDynamicItem(html, 'familyMembersList');
+        }
+
+        function addVehicle() {
+            const html = `
+                <div class="row g-3">
+                    <div class="col-md-4">
+                        <label class="form-label required-field">Make (e.g., Honda, Toyota)</label>
+                        <input type="text" class="form-control" name="vehicleMake[]" required>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label required-field">Model (e.g., Civic, Hilux)</label>
+                        <input type="text" class="form-control" name="vehicleModel[]" required>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label required-field">Year</label>
+                        <input type="number" class="form-control" name="vehicleYear[]" required min="1990" max="2026">
+                    </div>
+                </div>
+            `;
+            createDynamicItem(html, 'vehiclesList');
+        }
+
+        function addOtherScholarship() {
+            const html = `
+                <div class="row g-3">
+                    <div class="col-md-4">
+                        <label class="form-label required-field">Organization Name</label>
+                        <input type="text" class="form-control" name="otherOrgName[]" required>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label required-field">Amount Requested</label>
+                        <div class="input-group">
+                            <span class="input-group-text">$</span>
+                            <input type="number" class="form-control" name="otherOrgAmount[]" required min="0">
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label required-field">Expected Decision Date</label>
+                        <input type="date" class="form-control" name="otherOrgDate[]" required>
+                    </div>
+                </div>
+            `;
+            createDynamicItem(html, 'otherScholarshipsList');
+        }
+
+        // Financial Calculations
+        function calculateTotalIncome() {
+            const sources = ['incomeMother', 'incomeFather', 'incomeBusiness1', 'incomeRealEstate', 'incomePension', 'incomeRelative'];
+            let total = 0;
+            sources.forEach(source => {
+                const val = parseFloat(document.querySelector(`[name="${source}"]`)?.value) || 0;
+                total += val;
+            });
+            document.getElementById('totalIncomeDisplay').textContent = '$' + total.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2});
+        }
+
+        function calculateTotalExpenses() {
+            const expenses = ['expenseRent', 'expenseFood', 'expenseTaxes', 'expenseTransport', 'expenseFuel', 'expenseElectricity', 'expenseSchool', 'expenseMedical', 'expenseInsurance', 'expenseHouseHelp', 'expenseEntertainment', 'expenseVacations'];
+            let total = 0;
+            expenses.forEach(expense => {
+                const val = parseFloat(document.querySelector(`[name="${expense}"]`)?.value) || 0;
+                total += val;
+            });
+            document.getElementById('totalExpensesDisplay').textContent = '$' + total.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2});
+        }
+
+        // File Upload Handling
+        function handleFileUpload(input, type) {
+            const files = Array.from(input.files);
+            const maxSize = 5 * 1024 * 1024; // 5MB
+            
+            files.forEach(file => {
+                if (file.size > maxSize) {
+                    showToast(`File ${file.name} is too large. Maximum size is 5MB.`, 'error');
+                    return;
+                }
+                
+                if (!uploadedFiles[type]) uploadedFiles[type] = [];
+                uploadedFiles[type].push(file);
+                
+                displayFile(file, type);
+            });
+            
+            showToast(`${files.length} file(s) uploaded successfully`, 'success');
+        }
+
+        function displayFile(file, type) {
+            const listId = type + 'FileList';
+            const list = document.getElementById(listId);
+            
+            const fileItem = document.createElement('div');
+            fileItem.className = 'file-item';
+            fileItem.innerHTML = `
+                <div class="file-info">
+                    <div class="file-icon"><i class="bi bi-file-earmark"></i></div>
+                    <div>
+                        <div class="fw-bold">${file.name}</div>
+                        <small class="text-muted">${(file.size / 1024).toFixed(1)} KB</small>
+                    </div>
+                </div>
+                <button type="button" class="btn btn-sm btn-outline-danger" onclick="removeFile(this, '${type}', '${file.name}')">
+                    <i class="bi bi-trash"></i>
+                </button>
+            `;
+            
+            list.appendChild(fileItem);
+        }
+
+        function removeFile(btn, type, filename) {
+            btn.parentElement.remove();
+            if (uploadedFiles[type]) {
+                uploadedFiles[type] = uploadedFiles[type].filter(f => f.name !== filename);
+            }
+        }
+
+        // Signature Handling
+        function initializeSignatures() {
+            ['studentSignature', 'guardianSignature', 'fatherSignature', 'motherSignature', 'guardianSignCanvas', 'sponsorSignature'].forEach(id => {
+                const canvas = document.getElementById(id);
+                if (!canvas) return;
+                
+                const ctx = canvas.getContext('2d');
+                ctx.strokeStyle = '#5c3b2c';
+                ctx.lineWidth = 2;
+                ctx.lineCap = 'round';
+                
+                let isDrawing = false;
+                let lastX = 0;
+                let lastY = 0;
+                
+                function startDrawing(e) {
+                    isDrawing = true;
+                    const rect = canvas.getBoundingClientRect();
+                    const clientX = e.clientX || e.touches[0].clientX;
+                    const clientY = e.clientY || e.touches[0].clientY;
+                    lastX = clientX - rect.left;
+                    lastY = clientY - rect.top;
+                }
+                
+                function draw(e) {
+                    if (!isDrawing) return;
+                    e.preventDefault();
+                    const rect = canvas.getBoundingClientRect();
+                    const clientX = e.clientX || e.touches[0].clientX;
+                    const clientY = e.clientY || e.touches[0].clientY;
+                    const currentX = clientX - rect.left;
+                    const currentY = clientY - rect.top;
+                    
+                    ctx.beginPath();
+                    ctx.moveTo(lastX, lastY);
+                    ctx.lineTo(currentX, currentY);
+                    ctx.stroke();
+                    
+                    lastX = currentX;
+                    lastY = currentY;
+                }
+                
+                function stopDrawing() {
+                    isDrawing = false;
+                }
+                
+                canvas.addEventListener('mousedown', startDrawing);
+                canvas.addEventListener('mousemove', draw);
+                canvas.addEventListener('mouseup', stopDrawing);
+                canvas.addEventListener('mouseout', stopDrawing);
+                
+                canvas.addEventListener('touchstart', startDrawing);
+                canvas.addEventListener('touchmove', draw);
+                canvas.addEventListener('touchend', stopDrawing);
+                
+                signatures[id] = { canvas, ctx };
+            });
+        }
+
+        function clearSignature(id) {
+            if (signatures[id]) {
+                const { canvas, ctx } = signatures[id];
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+            }
+        }
+
+        // Review Generation
+        function generateReview() {
+            const formData = new FormData(document.getElementById('gpfaForm'));
+            const reviewContent = document.getElementById('reviewContent');
+            
+            const sections = [
+                {
+                    title: 'Personal Information',
+                    icon: 'bi-person',
+                    fields: [
+                        ['Surname', 'surname'],
+                        ['First Name', 'firstName'],
+                        ['Middle Name', 'middleName'],
+                        ['Gender', 'gender'],
+                        ['Date of Birth', 'birthDate'],
+                        ['Citizenship', 'citizenship'],
+                        ['County of Origin', 'countyOrigin'],
+                        ['Email', 'email'],
+                        ['Mobile Phone', 'mobilePhone']
+                    ]
+                },
+                {
+                    title: 'Academic Information',
+                    icon: 'bi-mortarboard',
+                    fields: [
+                        ['Grade Level', 'gradeLevel'],
+                        ['Desired Major', 'desiredMajor'],
+                        ['Previous GPFA Application', 'appliedBefore']
+                    ]
+                },
+                {
+                    title: 'Financial Summary',
+                    icon: 'bi-cash',
+                    fields: [
+                        ['Family Contribution', 'familyContribution'],
+                        ['Total Income (Calculated)', 'totalIncomeDisplay'],
+                        ['Total Expenses (Calculated)', 'totalExpensesDisplay']
+                    ]
+                }
+            ];
+            
+            let html = '';
+            sections.forEach(section => {
+                html += `<div class="review-section">
+                    <h5><i class="bi ${section.icon}"></i> ${section.title}</h5>`;
+                section.fields.forEach(([label, field]) => {
+                    let value = formData.get(field) || document.getElementById(field)?.textContent || 'Not provided';
+                    if (field === 'gender' && value === 'other') value = formData.get('genderOther') || 'Other';
+                    if (field === 'citizenship' && value === 'other') value = formData.get('citizenshipOther') || 'Other';
+                    
+                    html += `<div class="review-item">
+                        <span class="review-label">${label}</span>
+                        <span class="review-value">${value}</span>
+                    </div>`;
+                });
+                html += '</div>';
+            });
+            
+            // Document summary
+            html += `<div class="review-section">
+                <h5><i class="bi bi-files"></i> Uploaded Documents</h5>`;
+            let docCount = 0;
+            const requiredDocs = ['admission', 'gradeSheet', 'financialAid', 'photo', 'scholarshipLetter'];
+            const docNames = {
+                'admission': 'Admission Letter',
+                'gradeSheet': 'Grade Sheet/Progress Report',
+                'financialAid': 'Financial Aid Form',
+                'photo': 'Passport Photograph',
+                'scholarshipLetter': 'Scholarship Need Letter',
+                'transcript': 'School Transcripts',
+                'waec': 'WAEC Results',
+                'id': 'ID Document',
+                'financial': 'Financial Documents',
+                'medical': 'Medical Certificate',
+                'recommendation': 'Recommendation Letter'
+            };
+            
+            requiredDocs.forEach(doc => {
+                const count = uploadedFiles[doc]?.length || 0;
+                docCount += count;
+                const status = count > 0 ? '<span class="text-success"><i class="bi bi-check-circle-fill"></i> Uploaded</span>' : '<span class="text-danger"><i class="bi bi-x-circle-fill"></i> Missing</span>';
+                html += `<div class="review-item">
+                    <span class="review-label">${docNames[doc]}</span>
+                    <span class="review-value">${status}</span>
+                </div>`;
+            });
+            html += '</div>';
+            
+            reviewContent.innerHTML = html;
+        }
+
+        // Form Submission
+        document.getElementById('gpfaForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Check required documents
+            const requiredDocs = ['admission', 'gradeSheet', 'financialAid', 'photo', 'scholarshipLetter'];
+            const missingDocs = requiredDocs.filter(doc => !uploadedFiles[doc] || uploadedFiles[doc].length === 0);
+            
+            if (missingDocs.length > 0) {
+                showToast(`Missing required documents: ${missingDocs.join(', ')}`, 'error');
+                return;
+            }
+            
+            // Show loading
+            document.getElementById('loadingOverlay').classList.add('show');
+            
+            // Simulate submission
+            setTimeout(() => {
+                document.getElementById('loadingOverlay').classList.remove('show');
+                showToast('Application submitted successfully! Confirmation email sent.', 'success');
+                
+                setTimeout(() => {
+                    if (confirm('Application submitted! Application ID: GPFA-2026-' + Math.floor(Math.random() * 10000) + '\n\nWould you like to download a copy of your application?')) {
+                        // In real implementation, generate PDF
+                        alert('PDF download would start here in production environment.');
+                    }
+                }, 500);
+            }, 3000);
+        });
+
+        // Toast Notifications
+        function showToast(message, type = 'info') {
+            const toast = document.createElement('div');
+            toast.className = `toast align-items-center text-white border-0 show`;
+            toast.style.minWidth = '350px';
+            toast.style.background = type === 'error' ? 'var(--error-red)' : type === 'success' ? 'var(--success-green)' : 'var(--primary-maroon)';
+            toast.innerHTML = `
+                <div class="d-flex">
+                    <div class="toast-body">
+                        <i class="bi ${type === 'error' ? 'bi-exclamation-circle' : type === 'success' ? 'bi-check-circle' : 'bi-info-circle'} me-2"></i>
+                        ${message}
+                    </div>
+                    <button type="button" class="btn-close btn-close-white me-2 m-auto" onclick="this.parentElement.parentElement.remove()"></button>
+                </div>
+            `;
+            
+            document.querySelector('.toast-container').appendChild(toast);
+            
+            setTimeout(() => {
+                toast.remove();
+            }, 5000);
+        }
+
+        // Stepper click navigation
+        document.querySelectorAll('.step').forEach((step, index) => {
+            step.addEventListener('click', function() {
+                const targetStep = index + 1;
+                if (targetStep < currentStep) {
+                    document.getElementById(`step${currentStep}`).classList.remove('active');
+                    currentStep = targetStep;
+                    document.getElementById(`step${currentStep}`).classList.add('active');
+                    updateStepper();
+                    updateButtons();
+                    updateProgressBar();
+                }
+            });
+        });
+    </script>
+</body>
+</html>
